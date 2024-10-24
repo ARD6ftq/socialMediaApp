@@ -4,12 +4,13 @@ const router = express.Router();
 
 // Get all users
 router.get("/users", (req, res) => {
-  const query = "SELECT * FROM Users";
+  const query = "SELECT username FROM Users"; // Only fetch the 'username' column
   db.query(query, (err, result) => {
     if (err) {
-      return res.status(500).json({ message: "Error fetching users." });
+      return res.status(500).json({ message: "Error fetching usernames." });
     }
-    res.json(result);
+    // console.log(result); // Log the result to see what is returned
+    res.json(result); // Return the result containing usernames
   });
 });
 
@@ -84,6 +85,23 @@ router.get("/current_user", (req, res) => {
   } else {
     res.status(404).json({ message: "User not found." });
   }
+});
+
+// Get all posts
+router.get("/posts", (req, res) => {
+  const query = `
+    SELECT Posts.*, Users.username 
+    FROM Posts 
+    INNER JOIN Users ON Posts.username = Users.username 
+    ORDER BY createdAt DESC
+  `;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: "Error fetching posts." });
+    }
+    res.json(result); // Send posts back to frontend
+  });
 });
 
 // Export the router
