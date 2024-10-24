@@ -1,0 +1,36 @@
+Social Media App
+Overview
+This is a social media application that allows users to create profiles, share posts, interact with other users, and follow content they are interested in. The app provides features like posting text and images, commenting, liking, and following other users. It is designed to be interactive and user-friendly, making it easy to connect with others.
+
+Features
+User Authentication: Register and log in securely with email or username.
+Profiles: Create and edit personal profiles, including profile picture and bio.
+Posting: Share content, such as text updates and images, with followers.
+Interactions: Like, comment, and share posts.
+Followers: Follow other users to stay updated on their activity.
+Notifications: Receive updates about likes, comments, and follows.
+Real-time Updates: Live notifications and updates on the timeline.
+Tech Stack
+Frontend:
+
+HTML, CSS, JavaScript
+Framework: [React.js / Vue.js / etc.]
+Backend:
+
+[Node.js / Express / Django / etc.]
+REST API
+Database:
+
+[MySQL / PostgreSQL / MongoDB / etc.]
+Authentication:
+
+[JWT / OAuth / etc.]
+Real-time Functionality:
+
+WebSockets or [Socket.io]
+
+Usage
+Sign Up: Create an account by providing basic information.
+Log In: Access your account using email/username and password.
+Post: Share updates by creating a post from your profile.
+Interact: Like, comment, and follow other users.
