@@ -4,6 +4,8 @@ const path = require("path");
 const session = require("express-session");
 const db = require("./config/db"); // Ensure db is imported only once
 const apiRoutes = require("./routes/api"); // Import your API routes
+// const postsRouter = require("./routes/api"); // Adjust the path
+// app.use("/api", postsRouter);
 
 const app = express();
 const port = 3000;
