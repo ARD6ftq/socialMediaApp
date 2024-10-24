@@ -216,7 +216,6 @@ function fetchPosts() {
       if (postsContainer) {
         postsContainer.innerHTML = ""; // Clear existing posts
 
-        // Create post elements
         posts.forEach((post) => {
           const postElement = document.createElement("div");
           postElement.className = "post";
