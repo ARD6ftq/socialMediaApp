@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome for icons -->
+    <title>Home Page</title>
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to the Social Media App</h1>
+    </header>
+
+    <main class="content" aria-labelledby="main-heading">
+        <h2 id="main-heading">Main Content Area</h2>
+        <!-- Your main page content goes here -->
+        <div id="username-display"></div>
+        <div id="posts-container">
+            <!-- Posts will be displayed here -->
+        </div>
+        
+    </main>
+
+    <!-- Bottom Navbar -->
+    <nav class="bottom-navbar" aria-label="Main Navigation">
+        <a href="homepage.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" id="post-icon">
+            <i class="fas fa-plus-square"></i>
+            <span>Post</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a href="messages.html" class="nav-item">
+            <i class="fas fa-envelope"></i>
+            <span>Messages</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+    <!-- Display Posts -->
+    <div id="post-container"></div>
+    
+    <!-- Post Modal -->
+    <div id="post-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>What's up?</h2>
+            <textarea id="post-text" placeholder="Write your post here..."></textarea>
+            <button id="submit-post">Post</button>
+        </div>
+    </div>
+    <script src="/js/script.js"></script> <!-- Link to your client-side script -->
+</body>
+</html>

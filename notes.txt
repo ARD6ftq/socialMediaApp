@@ -1,0 +1,14 @@
+Reminder to fix post bug. Post modal only appears in the profile
+
+Features to Add:
+    * Add comments/likes
+    * Fix profile
+    * Add/remove followers/following
+    * User Follower/following/Post count
+        * Sort following/followers by alphabet
+    * Incorporate Direct messaging ???
+    * Search user profiles by username
+    * Click on users profile and see post
+    * Update validation
+        * User name already exists!!! 
+    * Delete user account

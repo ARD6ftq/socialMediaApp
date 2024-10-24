@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Create Account</title>
+</head>
+<body>
+    <div class="form-wrapper">
+        <form method="POST" action="/submit">
+            <div class="form-control">
+                <input type="text" id="Firstname" name="FirstName" required placeholder=" ">
+                <label for="Firstname">First Name</label>
+            </div>
+            <div class="form-control">
+                <input type="text" id="Lastname" name="LastName" required placeholder=" ">
+                <label for="Lastname">Last Name</label>
+            </div>
+            <div class="form-control">
+                <input type="email" id="Email" name="Email" required placeholder=" ">
+                <label for="Email">Email</label>
+            </div>
+            <div class="form-control">
+                <input type="text" id="Username" name="Username" required placeholder=" ">
+                <label for="Username">Username</label>
+            </div>
+            <div class="form-control">
+                <input type="password" name="Password" id="Password" placeholder=" " required>
+                <label for="Password">Password</label>
+                <i class="toggle-password" onclick="togglePassword('Password')">👁️</i>
+            </div>
+            <div class="form-control">
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" placeholder=" " required>
+                <label for="ConfirmPassword">Confirm Password</label>
+                <i class="toggle-password" onclick="togglePassword('ConfirmPassword')">👁️</i>
+            </div>
+            
+            <button type="submit">Create Account</button>
+        </form>
+        <!-- signUp.html -->
+        <p>Already have an account? <a href="signIn.html">Sign in here</a></p>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+/* General Styles */
+body {
+    background-color: #141414;  /* Dark background for sleek look */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.content {
+    min-height: calc(100vh - 60px); /* Ensure space for the navbar */
+    padding: 20px;
+    padding-bottom: 60px; /* Avoid content hiding behind navbar */
+}
+
+/* Profile Header Section (Twitter-like) */
+.profile-header {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Banner styling */
+.banner {
+    position: relative;
+    height: 200px;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.banner-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner input {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0.8;
+    cursor: pointer;
+    z-index: 2; /* Ensure input is clickable */
+}
+
+/* Profile Picture styling */
+.profile-picture {
+    position: absolute;
+    left: 50%;
+    bottom: -50px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    border: 4px solid white;
+    width: 100px;
+    height: 100px;
+    background-color: #333;
+}
+
+.profile-preview img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-picture input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+
+/* Profile Information */
+.profile-info {
+    margin-top: 60px; /* To account for profile picture overlap */
+    text-align: center;
+}
+
+.form-control {
+    position: relative;
+    margin-bottom: 25px;
+    width: 100%;  
+}
+
+.form-control input,
+.form-control textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Button Styles */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e50914;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+button:hover {
+    background-color: #b00610;
+    opacity: 0.9;
+}
+
+/* Bottom Navbar */
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #222;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 100;
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-item i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.nav-item:hover {
+    color: #1DA1F2;
+}
+
+/* Modal styles (as before) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #333;
+    margin: 15% auto;
+    padding: 20px;
+    color: white;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #aaa;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#posts-container {
+    margin: 20px 0;
+}
+
+.post {
+    background-color: #333;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+.post-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.post-timestamp {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.post {
+    background-color: #222;
+    color: white;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.banner {
+    position: relative; /* Context for absolute positioning */
+    height: 200px; /* Set a height for the banner */
+    background-color: #e2e2e2; /* Background color of the banner */
+}
+
+.profile-header {
+    position: relative; /* Context for absolute positioning */
+}
+
+.profile-picture {
+    position: absolute; /* Allow it to overlap */
+    bottom: -50px; /* Adjust to control the overlap from the bottom */
+    left: 20px; /* Adjust to position it from the left */
+    width: 120px; /* Increase size of the profile picture */
+    height: 120px; /* Increase size of the profile picture */
+    overflow: hidden; /* Ensure the content fits within the circle */
+    border-radius: 50%; /* Make it circular */
+    background-color: #222; /* Background color for no image */
+    display: flex; /* Flexbox for centering text */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    z-index: 10; /* Ensure it overlaps on top */
+    margin-left: 75px;
+}
+
+.profile-stats {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center items horizontally */
+    margin-top: 60px; /* Space below the profile picture */
+    padding: 10px 0; /* Add some padding */
+    background-color: #fff; /* Background color for the stats */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+}
+
+/* New CSS for Profile Stats */
+.profile-stats {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center items horizontally */
+    margin-top: 60px; /* Space below the profile picture */
+    padding: 10px 0; /* Add some padding */
+    background-color: #fff; /* Background color for the stats */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+    color: #141414;
+}
+
+.stat-item {
+    text-align: center; /* Center align text */
+    margin: 0 20px; /* Add some horizontal margin */
+}
+
+.stat-item h3 {
+    margin: 0; /* Remove default margin */
+    font-size: 24px; /* Font size for the count */
+}
+
+.stat-item p {
+    margin: 0; /* Remove default margin */
+    font-size: 14px; /* Font size for the label */
+    color: #666; /* Color for the label */
+}
+
+.edit-profile-button {
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    color: #fff; /* Text color */
+    background-color: #007bff; /* Button background color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s; /* Transition for hover effect */
+    width: auto; /* Width set to auto to fit content */
+    max-width: 200px; /* Optional: Maximum width to prevent it from getting too wide */
+    margin-top: 20px; /* Adds spacing between the button and the banner */
+}
+
+.edit-profile-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.bio-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    margin-top: 10px;
+}
+
+.save-bio-button {
+    margin-top: 10px; /* Spacing above the button */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    color: #fff; /* Text color */
+    background-color: #28a745; /* Green background color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s; /* Transition for hover effect */
+    display: inline-block; /* Ensure it only takes up as much space as needed */
+}
+
+.save-bio-button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Sign-in Page</title>
+</head>
+<body>
+    <div class="form-wrapper">
+        <h2>Sign In</h2>
+        <form action="/login" method="POST">
+            <div class="form-control">
+              <input type="text" name="Username" required placeholder=" " />
+              <label>Email or username</label>
+            </div>
+            <div class="form-control">
+              <input type="password" name="Password" required placeholder=" " />
+              <label>Password</label>
+            </div>
+            <button type="submit">Sign In</button>
+          
+            <p id="or">OR</p>
+            <button id="code" type="button">Use a sign-in code</button> <!-- Prevent form submission with 'type="button"' -->
+            
+            <div class="form-help">
+              <div class="remember-me">
+                <input type="checkbox" name="remember" />
+                <label>Remember me</label>
+              </div>
+              <a href="#">Need help?</a>
+            </div>
+          </form>
+          
+        <p>New to? <a href="signUp.html">Sign up now</a></p>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
