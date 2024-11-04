@@ -322,4 +322,59 @@ button:hover {
     background-color: lightblue; /* Change to light blue when liked */
     color: white; /* Change text color when liked */
   }
+
+/* Style for the comments section container */
+.comments-section {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+  }
   
+  /* Style for individual comments */
+  .comments-container {
+    margin-top: 10px;
+  }
+  
+  .comments-container div {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 5px 0;
+    color: #333; /* Change this to your desired comment text color */
+  }
+  
+  /* Style for the commenter's username */
+  .comments-container strong {
+    color: #007bff; /* Bootstrap primary color for the username */
+  }
+  
+  /* Style for the comment input field */
+  .comments-section input[type="text"] {
+    width: calc(100% - 110px); /* Full width minus button width */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  /* Style for the comment button */
+  .comments-section .comment-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Change button color on hover */
+  .comments-section .comment-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+  /* Style for the comment timestamp */
+  .comments-container small {
+    color: #777; /* Lighter gray for the timestamp */
+    font-size: 0.8em; /* Smaller font for the timestamp */
+  }  
