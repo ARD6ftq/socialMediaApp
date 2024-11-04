@@ -225,9 +225,18 @@ function fetchPosts() {
             <small>Posted on: ${new Date(
               post.createdAt
             ).toLocaleString()}</small>
+            <button class="like-button" data-post-id="${post.id}">
+              👍 Like (${post.likes || 0})
+            </button>
             <hr>
           `;
           postsContainer.appendChild(postElement);
+        });
+
+        // Add event listeners to like buttons
+        const likeButtons = document.querySelectorAll(".like-button");
+        likeButtons.forEach((button) => {
+          button.addEventListener("click", handleLike);
         });
       } else {
         console.error("Posts container not found.");
@@ -235,5 +244,29 @@ function fetchPosts() {
     })
     .catch((error) => {
       console.error("Error fetching posts:", error);
+    });
+}
+
+function handleLike(event) {
+  const postId = event.target.getAttribute("data-post-id");
+
+  fetch(`/api/posts/${postId}/like`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to like post");
+      }
+      return response.json();
+    })
+    .then(() => {
+      fetchPosts(); // Refresh posts to show updated like count
+    })
+    .catch((error) => {
+      console.error("Error liking post:", error);
+      alert("Failed to like post");
     });
 }
