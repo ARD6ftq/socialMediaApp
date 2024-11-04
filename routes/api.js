@@ -133,5 +133,46 @@ router.delete("/posts/:id/like", (req, res) => {
   });
 });
 
+// Add a comment to a post
+router.post("/posts/:id/comments", (req, res) => {
+  const postId = req.params.id;
+  const { content } = req.body;
+
+  // Validate input
+  if (!content) {
+    return res.status(400).json({ message: "Comment content is required." });
+  }
+
+  const query = "INSERT INTO Comments (postId, username, content) VALUES (?, ?, ?)";
+  db.execute(query, [postId, req.session.user.username, content], (err) => {
+    if (err) {
+      console.error("Error inserting comment into database:", err);
+      return res.status(500).json({ message: "Database insertion failed." });
+    }
+
+    res.status(201).json({ message: "Comment added successfully." });
+  });
+});
+
+// Get comments for a post
+router.get("/posts/:id/comments", (req, res) => {
+  const postId = req.params.id;
+
+  const query = `
+    SELECT Comments.*, Users.username 
+    FROM Comments 
+    INNER JOIN Users ON Comments.username = Users.username 
+    WHERE Comments.postId = ? 
+    ORDER BY createdAt DESC
+  `;
+
+  db.query(query, [postId], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: "Error fetching comments." });
+    }
+    res.json(result); // Send comments back to frontend
+  });
+});
+
 // Export the router
 module.exports = router;
