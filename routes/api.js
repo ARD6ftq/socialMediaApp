@@ -104,5 +104,20 @@ router.get("/posts", (req, res) => {
   });
 });
 
+// Like a post
+router.post("/posts/:id/like", (req, res) => {
+  const postId = req.params.id;
+
+  const query = "UPDATE Posts SET likes = likes + 1 WHERE id = ?";
+  db.execute(query, [postId], (err, results) => {
+    if (err) {
+      console.error("Error updating like count:", err);
+      return res.status(500).json({ message: "Failed to like post." });
+    }
+
+    res.status(200).json({ message: "Post liked successfully." });
+  });
+});
+
 // Export the router
 module.exports = router;
