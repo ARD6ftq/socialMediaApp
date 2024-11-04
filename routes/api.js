@@ -9,7 +9,6 @@ router.get("/users", (req, res) => {
     if (err) {
       return res.status(500).json({ message: "Error fetching usernames." });
     }
-    // console.log(result); // Log the result to see what is returned
     res.json(result); // Return the result containing usernames
   });
 });
@@ -64,8 +63,8 @@ router.post("/posts", (req, res) => {
     return res.status(400).json({ message: "Post content is required." });
   }
 
-  // Example query to save the post
-  const query = "INSERT INTO Posts (content, username, createdAt) VALUES (?, ?, ?)";
+  const query =
+    "INSERT INTO Posts (content, username, createdAt) VALUES (?, ?, ?)";
   const createdAt = new Date();
 
   db.execute(query, [content, req.session.user.username, createdAt], (err) => {
@@ -116,6 +115,21 @@ router.post("/posts/:id/like", (req, res) => {
     }
 
     res.status(200).json({ message: "Post liked successfully." });
+  });
+});
+
+// Unlike a post
+router.delete("/posts/:id/like", (req, res) => {
+  const postId = req.params.id;
+
+  const query = "UPDATE Posts SET likes = GREATEST(likes - 1, 0) WHERE id = ?"; // Ensure likes don't go negative
+  db.execute(query, [postId], (err, results) => {
+    if (err) {
+      console.error("Error updating like count:", err);
+      return res.status(500).json({ message: "Failed to unlike post." });
+    }
+
+    res.status(200).json({ message: "Post unliked successfully." });
   });
 });
 
