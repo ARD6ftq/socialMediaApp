@@ -202,10 +202,10 @@ function fetchCurrentUser() {
     });
 }
 
-// Fetch and display all posts
 // Initialize an object to keep track of which posts are liked
 let likedPosts = {}; 
 
+// Fetch and display all posts
 function fetchPosts() {
   fetch("/api/posts")
     .then((response) => {
@@ -220,7 +220,6 @@ function fetchPosts() {
         postsContainer.innerHTML = ""; // Clear existing posts
 
         posts.forEach((post) => {
-          likedPosts[post.id] = post.liked; // Track the like state
           const postElement = document.createElement("div");
           postElement.className = "post";
           postElement.innerHTML = `
@@ -229,16 +228,42 @@ function fetchPosts() {
             <small>Posted on: ${new Date(
               post.createdAt
             ).toLocaleString()}</small>
-            <button class="like-button ${post.liked ? 'liked' : ''}" data-post-id="${post.id}" data-liked="${post.liked}">
+            <button class="like-button" data-post-id="${
+              post.id
+            }" data-liked="false" style="background-color: white;">
               👍 Like (<span class="like-count">${post.likes || 0}</span>)
             </button>
+            <hr>
+            <div class="comments-section" id="comments-${post.id}">
+              <h4>Comments:</h4>
+              <div class="comments-container" id="comments-container-${
+                post.id
+              }"></div>
+              <input type="text" id="comment-input-${
+                post.id
+              }" placeholder="Add a comment...">
+              <button class="comment-button" data-post-id="${
+                post.id
+              }">Comment</button>
+            </div>
             <hr>
           `;
           postsContainer.appendChild(postElement);
 
-          // Add event listener for the like button
-          const likeButton = postElement.querySelector(".like-button");
-          likeButton.addEventListener("click", handleLike);
+          // Fetch comments for this post
+          fetchComments(post.id);
+        });
+
+        // Add event listeners to like buttons
+        const likeButtons = document.querySelectorAll(".like-button");
+        likeButtons.forEach((button) => {
+          button.addEventListener("click", handleLike);
+        });
+
+        // Add event listeners to comment buttons
+        const commentButtons = document.querySelectorAll(".comment-button");
+        commentButtons.forEach((button) => {
+          button.addEventListener("click", handleComment);
         });
       } else {
         console.error("Posts container not found.");
@@ -273,5 +298,68 @@ function handleLike(event) {
     .catch((error) => {
       console.error("Error liking/unliking post:", error);
       alert("Failed to " + (liked ? "unlike" : "like") + " post");
+    });
+}
+
+function handleComment(event) {
+  const button = event.target;
+  const postId = button.getAttribute("data-post-id");
+  const commentInput = document.getElementById(`comment-input-${postId}`);
+  const commentContent = commentInput.value;
+
+  if (commentContent.trim() === "") {
+    alert("Comment cannot be empty.");
+    return;
+  }
+
+  fetch(`/api/posts/${postId}/comments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ content: commentContent }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to add comment");
+      }
+      return response.json();
+    })
+    .then(() => {
+      commentInput.value = ""; // Clear the input
+      fetchComments(postId); // Refresh comments
+    })
+    .catch((error) => {
+      console.error("Error adding comment:", error);
+      alert("Failed to add comment");
+    });
+}
+
+function fetchComments(postId) {
+  fetch(`/api/posts/${postId}/comments`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Error fetching comments");
+      }
+      return response.json();
+    })
+    .then((comments) => {
+      const commentsContainer = document.getElementById(
+        `comments-container-${postId}`
+      );
+      commentsContainer.innerHTML = ""; // Clear existing comments
+
+      comments.forEach((comment) => {
+        const commentElement = document.createElement("div");
+        commentElement.innerHTML = `
+          <strong>${comment.username}:</strong> ${comment.content}
+          <small> (${new Date(comment.createdAt).toLocaleString()})</small>
+          <hr>
+        `;
+        commentsContainer.appendChild(commentElement);
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching comments:", error);
     });
 }
