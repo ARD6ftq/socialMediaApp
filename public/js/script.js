@@ -203,6 +203,9 @@ function fetchCurrentUser() {
 }
 
 // Fetch and display all posts
+// Initialize an object to keep track of which posts are liked
+let likedPosts = {}; 
+
 function fetchPosts() {
   fetch("/api/posts")
     .then((response) => {
@@ -217,6 +220,7 @@ function fetchPosts() {
         postsContainer.innerHTML = ""; // Clear existing posts
 
         posts.forEach((post) => {
+          likedPosts[post.id] = post.liked; // Track the like state
           const postElement = document.createElement("div");
           postElement.className = "post";
           postElement.innerHTML = `
@@ -225,18 +229,16 @@ function fetchPosts() {
             <small>Posted on: ${new Date(
               post.createdAt
             ).toLocaleString()}</small>
-            <button class="like-button" data-post-id="${post.id}">
-              👍 Like (${post.likes || 0})
+            <button class="like-button ${post.liked ? 'liked' : ''}" data-post-id="${post.id}" data-liked="${post.liked}">
+              👍 Like (<span class="like-count">${post.likes || 0}</span>)
             </button>
             <hr>
           `;
           postsContainer.appendChild(postElement);
-        });
 
-        // Add event listeners to like buttons
-        const likeButtons = document.querySelectorAll(".like-button");
-        likeButtons.forEach((button) => {
-          button.addEventListener("click", handleLike);
+          // Add event listener for the like button
+          const likeButton = postElement.querySelector(".like-button");
+          likeButton.addEventListener("click", handleLike);
         });
       } else {
         console.error("Posts container not found.");
@@ -248,25 +250,28 @@ function fetchPosts() {
 }
 
 function handleLike(event) {
-  const postId = event.target.getAttribute("data-post-id");
+  const button = event.target;
+  const postId = button.getAttribute("data-post-id");
+  const liked = button.getAttribute("data-liked") === "true";
 
-  fetch(`/api/posts/${postId}/like`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  const method = liked ? "DELETE" : "POST"; // Toggle method based on current state
+
+  fetch(`/api/posts/${postId}/like`, { method })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Failed to like post");
+        throw new Error("Failed to " + (liked ? "unlike" : "like") + " post");
       }
-      return response.json();
-    })
-    .then(() => {
-      fetchPosts(); // Refresh posts to show updated like count
+      // Toggle the like state
+      likedPosts[postId] = !liked;
+      button.setAttribute("data-liked", !liked); // Update the data attribute
+
+      // Update the like count
+      const likeCountElement = button.querySelector(".like-count");
+      likeCountElement.textContent = parseInt(likeCountElement.textContent) + (liked ? -1 : 1);
+      button.classList.toggle("liked"); // Toggle the 'liked' class for styling
     })
     .catch((error) => {
-      console.error("Error liking post:", error);
-      alert("Failed to like post");
+      console.error("Error liking/unliking post:", error);
+      alert("Failed to " + (liked ? "unlike" : "like") + " post");
     });
 }
