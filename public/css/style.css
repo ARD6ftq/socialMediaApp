@@ -313,3 +313,13 @@ button:hover {
     background-color: #218838; /* Darker green on hover */
 }
 
+.like-button {
+    background-color: white; /* Default background */
+    color: black; /* Default text color */
+  }
+  
+  .like-button.liked {
+    background-color: lightblue; /* Change to light blue when liked */
+    color: white; /* Change text color when liked */
+  }
+  
