@@ -38,6 +38,29 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listeners for modal and post functionality
   setupPostModal();
   setupBioEditing();
+  
+  const logoutButton = document.getElementById("logout-button");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", function () {
+      fetch("/api/logout", {
+        method: "POST",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Logout failed");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert(data.message); // Optional: Show a success message
+          window.location.href = "/sign-in"; // Redirect to sign-in page
+        })
+        .catch((error) => {
+          console.error("Error during logout:", error);
+          alert("Error during logout: " + error.message); // Show error message
+        });
+    });
+  }
 });
 
 // Toggle password visibility
