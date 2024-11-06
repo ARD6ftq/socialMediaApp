@@ -38,170 +38,37 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listeners for modal and post functionality
   setupPostModal();
   setupBioEditing();
-  
+
+  // Handle logout button visibility and functionality
   const logoutButton = document.getElementById("logout-button");
   if (logoutButton) {
-    logoutButton.addEventListener("click", function () {
-      fetch("/api/logout", {
-        method: "POST",
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Logout failed");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          alert(data.message); // Optional: Show a success message
-          window.location.href = "/sign-in"; // Redirect to sign-in page
-        })
-        .catch((error) => {
-          console.error("Error during logout:", error);
-          alert("Error during logout: " + error.message); // Show error message
-        });
-    });
-  }
-});
-
-// Toggle password visibility
-function togglePassword(inputId) {
-  const input = document.getElementById(inputId);
-  const type = input.getAttribute("type") === "password" ? "text" : "password";
-  input.setAttribute("type", type);
-
-  // Optionally, change the icon based on the visibility
-  const icon = event.target;
-  icon.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
-}
-
-// Banner image preview
-function previewBanner(event) {
-  const bannerPreview = document.getElementById("banner-preview");
-  const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    bannerPreview.innerHTML = `<img src="${e.target.result}" alt="Banner Image" />`;
-  };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
-}
-
-// Profile picture preview
-function previewProfilePic(event) {
-  const profilePreview = document.getElementById("profile-preview");
-  const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    profilePreview.innerHTML = `<img src="${e.target.result}" alt="Profile Picture" />`;
-  };
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
-}
-
-// Setup post modal
-function setupPostModal() {
-  const modal = document.getElementById("post-modal");
-  const postIcon = document.getElementById("post-icon");
-  const closeModal = document.getElementById("close-modal");
-
-  if (postIcon && modal) {
-    postIcon.addEventListener("click", (event) => {
-      event.preventDefault();
-      modal.style.display = "block";
-    });
-  } else {
-    console.warn("Post icon or modal not found.");
-  }
-
-  if (closeModal) {
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-  }
-
-  window.addEventListener("click", (event) => {
-    if (modal && event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
-
-  // Handle post submission
-  const submitPostButton = document.getElementById("submit-post");
-  const postsContainer = document.getElementById("posts-container");
-
-  if (submitPostButton) {
-    submitPostButton.addEventListener("click", function () {
-      const postText = document.getElementById("post-text").value;
-
-      if (postText.trim() !== "") {
-        // Send the post to the server
-        console.log("Sending post content:", { content: postText }); // Debug log
-
-        fetch("/api/posts", {
+    const usernameDisplay = document.getElementById("username-display");
+    if (usernameDisplay && usernameDisplay.textContent) {
+      logoutButton.style.display = "block"; // Show the logout button if the user is authenticated
+      logoutButton.addEventListener("click", function () {
+        fetch("/api/logout", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: postText }), // Send post content
         })
           .then((response) => {
             if (!response.ok) {
-              throw new Error("Failed to create post: " + response.statusText);
+              throw new Error("Logout failed");
             }
             return response.json();
           })
-          .then(() => {
-            document.getElementById("post-text").value = ""; // Clear the input
-            modal.style.display = "none"; // Close the modal
-            fetchPosts(); // Fetch and display all posts again
+          .then((data) => {
+            alert(data.message); // Optional: Show a success message
+            window.location.href = "/sign-in"; // Redirect to sign-in page after logout
           })
           .catch((error) => {
-            console.error("Error creating post:", error);
-            alert("Error creating post: " + error.message); // Alert the user
+            console.error("Error during logout:", error);
+            alert("Error during logout: " + error.message); // Show error message
           });
-      } else {
-        alert("Post content cannot be empty."); // Alert if post is empty
-      }
-    });
-  } else {
-    console.warn("Submit post button not found.");
+      });
+    } else {
+      logoutButton.style.display = "none"; // Hide the logout button if not authenticated
+    }
   }
-}
-
-// Setup bio editing
-function setupBioEditing() {
-  const editButton = document.getElementById("editButton");
-  const saveBioButton = document.getElementById("saveBioButton");
-
-  if (editButton) {
-    editButton.addEventListener("click", function () {
-      document.getElementById("bioInput").style.display = "block";
-      saveBioButton.style.display = "inline-block";
-      editButton.style.display = "none";
-    });
-  } else {
-    console.warn("Edit button not found.");
-  }
-
-  if (saveBioButton) {
-    saveBioButton.addEventListener("click", function () {
-      const bio = document.getElementById("bioInput").value;
-      document.getElementById("bioDisplay").innerText =
-        bio.trim() !== "" ? bio : "No bio added yet.";
-      document.getElementById("bioInput").style.display = "none";
-      saveBioButton.style.display = "none";
-      editButton.style.display = "inline-block";
-    });
-  } else {
-    console.warn("Save bio button not found.");
-  }
-}
+});
 
 // Fetch current user and display their username
 function fetchCurrentUser() {
@@ -224,9 +91,6 @@ function fetchCurrentUser() {
       console.error("Error fetching the current user:", error);
     });
 }
-
-// Initialize an object to keep track of which posts are liked
-let likedPosts = {}; 
 
 // Fetch and display all posts
 function fetchPosts() {
@@ -265,35 +129,17 @@ function fetchPosts() {
               <input type="text" id="comment-input-${
                 post.id
               }" placeholder="Add a comment...">
-              <button class="comment-button" data-post-id="${
-                post.id
-              }">Comment</button>
+              <button onclick="addComment(${post.id})">Post Comment</button>
             </div>
-            <hr>
           `;
+
           postsContainer.appendChild(postElement);
-
-          // Fetch comments for this post
-          fetchComments(post.id);
         });
-
-        // Add event listeners to like buttons
-        const likeButtons = document.querySelectorAll(".like-button");
-        likeButtons.forEach((button) => {
-          button.addEventListener("click", handleLike);
-        });
-
-        // Add event listeners to comment buttons
-        const commentButtons = document.querySelectorAll(".comment-button");
-        commentButtons.forEach((button) => {
-          button.addEventListener("click", handleComment);
-        });
-      } else {
-        console.error("Posts container not found.");
       }
     })
     .catch((error) => {
       console.error("Error fetching posts:", error);
+      alert("Error fetching posts: " + error.message); // Show error message
     });
 }
 
@@ -315,7 +161,8 @@ function handleLike(event) {
 
       // Update the like count
       const likeCountElement = button.querySelector(".like-count");
-      likeCountElement.textContent = parseInt(likeCountElement.textContent) + (liked ? -1 : 1);
+      likeCountElement.textContent =
+        parseInt(likeCountElement.textContent) + (liked ? -1 : 1);
       button.classList.toggle("liked"); // Toggle the 'liked' class for styling
     })
     .catch((error) => {
@@ -413,11 +260,3 @@ document.getElementById("logout-button").addEventListener("click", function () {
     })
     .catch((error) => console.error("Logout error:", error));
 });
-
-// Only redirect if not authenticated
-function isAuthenticated(req, res, next) {
-  if (req.session.user) {
-    return next(); // Proceed if authenticated
-  }
-  res.redirect("/"); // Redirect to login if not authenticated
-}
