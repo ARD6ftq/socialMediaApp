@@ -74,8 +74,8 @@ app.get("/homepage", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "homepage.html")); // Serve the homepage
 });
 
-// Handle logout for /api/logout
-app.get("/api/logout", (req, res) => {
+// Handle logout
+app.get("/api/logout", isAuthenticated, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ message: "Logout failed" });
