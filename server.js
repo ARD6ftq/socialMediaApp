@@ -4,8 +4,6 @@ const path = require("path");
 const session = require("express-session");
 const db = require("./config/db"); // Ensure db is imported only once
 const apiRoutes = require("./routes/api"); // Import your API routes
-// const postsRouter = require("./routes/api"); // Adjust the path
-// app.use("/api", postsRouter);
 
 const app = express();
 const port = 3000;
@@ -38,7 +36,9 @@ app.post("/login", (req, res) => {
 
   // Input validation
   if (!Username || !Password) {
-    return res.status(400).json({ message: "Username and password are required." });
+    return res
+      .status(400)
+      .json({ message: "Username and password are required." });
   }
 
   // Database query to verify the user
@@ -74,13 +74,13 @@ app.get("/homepage", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "homepage.html")); // Serve the homepage
 });
 
-// Handle logout
-app.get("/logout", (req, res) => {
+// Handle logout for /api/logout
+app.get("/api/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ message: "Logout failed" });
     }
-    res.redirect("/"); // Redirect to login after logout
+    res.json({ message: "Logout successful" }); // Respond with success
   });
 });
 
