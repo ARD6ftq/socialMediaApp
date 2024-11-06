@@ -386,3 +386,38 @@ function fetchComments(postId) {
       console.error("Error fetching comments:", error);
     });
 }
+
+// After successful logout response
+// Assuming you have a way to check if the user is logged in
+const isUserLoggedIn = document.querySelector("#username-display").textContent;
+
+if (isUserLoggedIn) {
+  // Only call logout when the user is logged in
+  fetch("/api/logout")
+    .then((response) => {
+      if (response.ok) {
+        alert("Logout successful");
+        window.location.href = "/"; // Redirect to sign-in page
+      }
+    })
+    .catch((error) => console.error("Logout error:", error));
+}
+
+document.getElementById("logout-button").addEventListener("click", function () {
+  fetch("/api/logout")
+    .then((response) => {
+      if (response.ok) {
+        alert("Logout successful");
+        window.location.href = "/"; // Redirect to sign-in page
+      }
+    })
+    .catch((error) => console.error("Logout error:", error));
+});
+
+// Only redirect if not authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    return next(); // Proceed if authenticated
+  }
+  res.redirect("/"); // Redirect to login if not authenticated
+}
